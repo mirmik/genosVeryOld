@@ -1,0 +1,13 @@
+
+
+
+
+
+
+
+init_current_thread			KEYWORD2
+set_stack_thread			KEYWORD2
+change_thread				KEYWORD2
+copy_thread					KEYWORD2
+fork_thread					KEYWORD2
+current_thread				KEYWORD2
