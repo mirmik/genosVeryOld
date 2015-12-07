@@ -5,11 +5,11 @@
 	
 	namespace genos{
 		
-		class Reader{
+		template<typename T>
+		class Reader{public:
 			
 			
-		virtual	size_t read(char c);
-		virtual	size_t read(char* c, size_t n);
+		virtual	size_t read();
 		virtual size_t available();
 			
 			};

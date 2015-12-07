@@ -7,6 +7,7 @@
 	#include "genos/schedproc/scheduler_base.h"
 	#include "genos/schedproc/process_base.h"
 	#include "genos/sigslot/delegate.h"
+	#include "genos/debug/debug_info.h"
 	
 	
 	//Структура, содержащая информацию о процессе.
@@ -16,10 +17,11 @@
 		delegate<void> dlg;
 	};
 	
+	
 	class automScheduler : public subst_scheduler_base
 	{
 		//Ресурсы:
-		
+		uint8_t proc_is_unbind;
 		public:
 		//Методы:
 		void init(){
@@ -27,15 +29,22 @@
 		};					
 		
 		
+	void proc_go_wait()
+	{
+		proc_is_unbind = 1;
+	};
+		
+		int a;
 		void schedule(){	//вызов планировщика 
 			process* proc;
 			
-			if(!list_empty(&running_list)) proc = 
+			if(list_empty(&running_list)) return; 
+			proc = 
 			list_entry(running_list.next, process, sts_list);
-			else return;
-			
 			list_move_tail(&proc->sts_list, &running_list);
+			current_process(proc);			
 			proc->dlg();
+			
 			return;
 		};
 		
@@ -49,8 +58,8 @@
 			process_init(proc);
 		};
 		
-		class AbstractDelegated{};
-		void registry(void* obj, void(AbstractDelegated::*mtd)())
+		template <typename T>
+		void registry(T* obj, void(T::*mtd)())
 		{
 			process* proc = new process;
 			proc->dlg = std::make_pair(obj, mtd);
@@ -61,7 +70,7 @@
 		//void proc_delete(process* proc);//Уничтожить процесс. (Активный процесс уничтожать запрещено.)
 		
 		//Конструктор
-		automScheduler() {init();};
+		automScheduler() : proc_is_unbind(0) {init();};
 		};
 	
 	

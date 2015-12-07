@@ -8,7 +8,18 @@
 	namespace genos {		
 		
 		template<typename T, typename traits = char_traits<T>>
-		class basic_istream : public ios<T, traits>	{};
+		class basic_istream : public ios<T, traits>	{public:
+			Reader<T>* i;
+		
+			void set(Reader<T>& bi) {i=&bi;};
+			
+			basic_istream() : i(0) {};
+			basic_istream(Reader<T>& _i) : i(&_i) {};
+			
+			size_t read(){return i->read();};
+			size_t available(){return i->available();};
+			
+			};
 		
 		
 		
@@ -19,6 +30,8 @@
 			
 			//Объект, реализующий запись в "устройство"
 			Writer<T>* o;
+			public:
+			void set(Writer<T>& bo) {o=&bo;};
 			
 			public:
 			basic_ostream() : o(0) {};

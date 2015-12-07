@@ -4,6 +4,7 @@
 #include <genos/base_struct/list.h>
 #include "genos/base_struct/bits.h"
 
+//static void idle(){while(1) scheduler().schedule();};
 	
 void gScheduler::init(){
 	process* proc = new process;	
@@ -15,6 +16,7 @@ void gScheduler::init(){
 	current_process(proc);
 	bits_clr(sched_flags, NO_INIT);
 	current = running_list.next;
+	//if (!fork(300)) idle();
 };
 
 
@@ -69,7 +71,8 @@ void gScheduler::schedule(){
 		strt:
 		if (current == &running_list) 					//Проверка на завершение цикла
 		if (&running_list == running_list.next)			//Проверка на пустой список
-		{debug_panic("Last proccess has been destroyed. HALT");}
+		{debug_panic("No one running proc. HALT");
+			}
 		else current = running_list.next;				//Начать новый цикл
 		
 		proc = container_of(current, process, sts_list);//Указатель на процесс получить.

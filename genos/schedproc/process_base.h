@@ -34,6 +34,7 @@
 	void process_set_running(process_base* proc);
 	void process_set_wait(process_base* proc);
 	void process_set_zombie(process_base* proc);
+	void process_set_stop(process_base* proc);
 	void process_init(process_base* proc);
 	
 	void process_executed(process_base* proc);

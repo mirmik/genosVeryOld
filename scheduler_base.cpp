@@ -12,7 +12,6 @@ void current_process(process_base* proc){__current_proc = proc;};
 
 scheduler_base* scheduler_base::__sched = nullptr;
 
-
 list_head process_list;
 list_head running_list;
 list_head waiting_list;
@@ -26,8 +25,8 @@ list_head stop_list;
 
 
 
-scheduler_base* scheduler() {return scheduler_base::__sched;};
-void scheduler(scheduler_base* _sched) {scheduler_base::__sched = _sched;};
+scheduler_base& scheduler() {return *scheduler_base::__sched;};
+void scheduler(scheduler_base& _sched) {scheduler_base::__sched = &_sched;};
 
 
 bool scheduler_base::ready(){

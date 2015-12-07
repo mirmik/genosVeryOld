@@ -27,7 +27,7 @@
 		};
 		
 		
-		class Serial_istream_adapter : public Reader
+		class Serial_istream_adapter : public Reader<char>
 	{
 		size_t read() {
 			return (Serial.read());

@@ -35,8 +35,8 @@
 		static scheduler_base* __sched;
 		
 		
-		friend scheduler_base* scheduler();
-		friend void scheduler(scheduler_base* _sched);
+		friend scheduler_base& scheduler();
+		friend void scheduler(scheduler_base& _sched);
 				
 		void block();					//¬нешн€€ блокировка планировани€
 		void unblock();				
@@ -81,7 +81,7 @@
 	
 		
 	
-	scheduler_base* scheduler();
-	void scheduler(scheduler_base* _sched);
+	scheduler_base& scheduler();
+	void scheduler(scheduler_base& _sched);
 	
 #endif

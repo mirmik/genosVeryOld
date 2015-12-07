@@ -42,7 +42,7 @@
 		void proc_delete(process* proc);//Уничтожить процесс. (Активный процесс уничтожать запрещено.)
 		
 		//Конструктор
-		gScheduler() {init();};
+		gScheduler() {};
 	};
 		
 	

@@ -43,7 +43,7 @@ class traits_type = elem_traits<valtype>
 			pointer push_back(const valtype &val){
 				pair_t* ptr = alloc.allocate(1);
 				new (ptr) pair_t(list_head(), valtype(val));
-				list_add_tail(&ptr->first,&head);
+				list_add_tail(& ptr->first, &head);
 				return &(ptr->second);
 			};
 			
@@ -72,8 +72,7 @@ class traits_type = elem_traits<valtype>
 				public:
 				list_head* current;
 				public:
-				iterator(list_head* _head) : current(_head) {};	
-				iterator() : current(0) {};		
+				iterator(list_head* _head) : current(_head) {};		
 				
 				iterator operator++(int) { iterator i = *this; current=current->next; return i; }
 				iterator operator++() { current=current->next; return *this; }

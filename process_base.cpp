@@ -24,6 +24,11 @@
 		bits_mask_assign(proc->prc_flags, PROC_STATE_MASK, PROC_ZOMBIE);
 	};
 	
+	void process_set_stop(process_base* proc)
+	{
+		list_move(&proc->sts_list, &stop_list);
+		bits_mask_assign(proc->prc_flags, PROC_STATE_MASK, PROC_STOP);
+	};
 	
 	void process_init(process_base* proc)
 	{

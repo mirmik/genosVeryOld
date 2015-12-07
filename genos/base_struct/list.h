@@ -1,7 +1,6 @@
 #ifndef GENOS_LINUX_LIST_BASIC
 	#define GENOS_LINUX_LIST_BASIC
 	
-	#include "genos/debug/debug.h"
 	#include "genos/base_struct/base_struct_def.h"
 	
 	#define LIST_POISON1 ((list_head*)-1)
@@ -662,40 +661,7 @@
 	#define list_safe_reset_next(pos, n, member)				\
 	n = list_next_entry(pos, member)
 	
-	void static inline list_check(list_head* list, int m =20)
-	{
-		dpr("list_check:\n");
-		int n;
-		list_head* tmp = list;
-		for (n=0;n < m; n++)
-		{
-			if ((size_t)list < 0x50) {debug_panic("list_next_zero\n");}; 
-			if ((size_t)list > RAMEND - 0x50) {debug_panic("list_next_RAMEND\n");};
-			debug_printhex_ptr(list->prev);dpc(':');
-			debug_printhex_ptr(list);dpc(':');
-			debug_printhex_ptr(list->next);dpc(':');
-			dln;
-			list = list -> next;
-			if (list == tmp) {dpr("list_next_correct\n");goto stage2;}; 		
-		};
-		debug_panic("list_next_count is over\n");
-		stage2:
-		list = tmp;
-		for (n=0;n < m; n++)
-		{
-			if ((size_t)list < 0x50) {debug_panic("list_prev_zero\n");};
-			if ((size_t)list > RAMEND - 0x50) {debug_panic("list_prev_RAMEND\n");};
-			debug_printhex_ptr(list->prev);dpc(':');
-			debug_printhex_ptr(list);dpc(':');
-			debug_printhex_ptr(list->next);dpc(':');
-			dln;
-			list = list -> prev;
-			if (list == tmp) {dpr("list_prev_correct\n");goto stage3;}; 
-		};
-		debug_panic("list_prev_count is over\n"); 
-		stage3:;
-		return;
-	};
+
 	
 	
 	
