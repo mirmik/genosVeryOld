@@ -7,8 +7,9 @@
 	
 	void la_debug_info();
 	
+	extern uint8_t dynamic_memory_debug;
 	
-	
+	void dynamic_memory_debug_enable();
 	
 	
 	

@@ -1,27 +1,48 @@
 #include "genos.h"
-#include "genos/iostream/iostream.h"
 #include "genos/sigslot/sigslot.h"
 
-using namespace genos;;
 
-Serial_ostream_adapter SOA;
-ostream os(SOA);
+class A
+{
+  public:
+  int mtd (int i, float f) 
+  {
+    Serial.print("mtd\t");
+    Serial.print(i);
+    Serial.print('\t');
+    Serial.println(f);
+  };
+} a;
 
-int func1(int i, float d){os << i*1 << d<< endl;};
-int func2(int i, float d){os << i*2 << d<< endl;};
-int func3(int i, float d){os << i*3 << d<< endl;};
+int func(int i, float f){
+  Serial.print("func\t");
+  Serial.print(i);
+  Serial.print('\t');
+  Serial.println(f);
+};
 
-class A{};
-  
+sigslot<int,int, float> s;
+
 void setup() {
-os << setw(10);
-  sigslot<int,int, float> s;
-  s += func1;
-  s += func2;
-  s += func3;
+  
+  Serial.begin(9600);
+  s += func;
+  s += method(a, A::mtd);
   s(3, 0.97);
-  }
+  Serial.println();
+  
+  s -= method(a, A::mtd);
+  s(2, 42.24);
+  Serial.println();
+  
+  s != func;
+  s(8, 12.7);
+  Serial.println();
+  
+  s.clear();
+  s(8,9);
+}
 
 void loop() {
-
+  
 }

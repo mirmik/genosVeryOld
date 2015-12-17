@@ -5,6 +5,7 @@
 
 //#pragma GCC optimize "-O0"
 #include "genos/debug/debug.h"
+#include "genos/debug/farseer.h"
 #include "genos/subst/subst.h"
 
 	thread* __current;			//Указатель на активную нить.
@@ -164,7 +165,7 @@
 		__exec_thread(dst);					    //Выполняем копирование активной нити.
 		if (__current == parent) return 0;	//Сравниваем текущую активную нить с дескриптором родителя.
 		else func();
-		debug_panic("exec_thread return.");
+		//debug_panic("exec_thread return.");
 	};
 	
 	int exec_thread_with_return(thread* dst, void(* func)())
@@ -174,7 +175,7 @@
 		if (__current == parent) return 0;	//Сравниваем текущую активную нить с дескриптором родителя.
 		else func();
 		change_thread(parent);
-		debug_panic("exec_thread_with_return was invoked after return");
+		//debug_panic("exec_thread_with_return was invoked after return");
 	};
 	//*******************************************************************************************//
 	//								Вызов функции в текущей нити								 //
@@ -184,7 +185,7 @@
 	{	
 		drop_stack();
 		func();
-		debug_panic("exec_current_thread return.");
+		//debug_panic("exec_current_thread return.");
 	};
 	
 	int exec_current_thread_nosafe(void(* func)())

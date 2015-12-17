@@ -7,8 +7,13 @@
 	
 	
 	#include <genos/debug/debug_print.h>
-	#include <genos/debug/errserv.h>
-	#include <genos/debug/debug_macro.h>	
+	#include <genos/debug/debug_errserv.h>
+	#include <genos/debug/debug_macro.h>
+	#include <genos/debug/iteration_counter.h>
+	#include <genos/debug/debug_templates.h>
+	//#include <genos/debug/farseer.h>
+	
+	
 	//#include <genos/debug/debug_info.h>
 	
 	

@@ -1,6 +1,7 @@
 #include "genos.h"
-#include "genos/scheduler/maSched.h"
+#include "genos/schedproc/maSched.h"
 #include "genos/platform/aiop2/aiop2.h"
+#include "genos/info.h"
 
 using namespace genos;;
 
@@ -27,16 +28,15 @@ if (millis() % 1000 >= 500) digitalWrite(30,0);
 
 
 void setup() {
-  init_aiop2();
+  aiop2_init();
   aiop2_tmr1_int_on();
   maSched.init();
 
    maSched.create_func_loop_process(func1, 15, "func1");
    maSched.create_func_loop_process(func2, 15, "func2");
    
-  maSched.debug_print_proclist();
-  maSched.debug_print_thread_array();
-  
+  debug_info(maSched,0);
+  debug_info(maSched,1);
   maSched.unblock();
 }
 

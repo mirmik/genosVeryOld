@@ -2,13 +2,15 @@
 	#define GENOS_DEBUG_PRINT
 	
 #include <genos/types.h> 
+#include <genos/platform/debug.h> 
 
 /*	
 	2012-2015 Mirmik
 	Библиотека низкоуровневого отладочного вывода.
 	
 	Библиотека предназначена для облегчения низкоуровневой отладки.
-	Функции не имеют внешних зависимостей (кроме определения типов), 
+	Функции не имеют внешних зависимостей (кроме определения типов 
+	и аппаратнозависимой инициализации и функции вывода символа), 
 	линкуются по стандарту "С", что позволяет
 	вызывать их в том числе с использованием ассемблера. 
 	
@@ -26,11 +28,11 @@
 #ifdef __cplusplus   
 extern "C" {
 #endif
-
-void debug_print_init();
+//Инициализация вывода
+//void debug_print_init(); - в platform
 
 //Платформозависимый !блокирующий процессор! вывод char
- void debug_putchar(char c);
+ //void debug_putchar(char c); - в platform
 
 //Вывод строки указанной длины.
  void debug_write(const char* c,int i);
@@ -67,6 +69,7 @@ void debug_print_init();
 
 //Вывод дампа памяти. size - размер в байтах.
  void debug_print_dump(void* address, uint32_t size);
+ void debug_print_dump_ascii(void* address, uint32_t size);
 
 //Вывод логического значения.
  void debug_print_bool(bool b);
@@ -74,7 +77,7 @@ void debug_print_init();
 
 //Вывод float одинарной точности. //TODO дополнить
  void debug_printbin_spf(sp_float a);
-
+ 
 
 //TODO проверка функций библиотеки debug_print.
 // void debug_print_test();

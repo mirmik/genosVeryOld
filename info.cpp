@@ -50,7 +50,7 @@ genos::ostream& operator<< (genos::ostream& o, thread& thr){
 		debug_printhex_uint16(tc.thr->stack_top);		debug_putchar(':');
 		debug_printhex_uint16((uint16_t)tc.stack);			
 	};
-	
+	/*
 	void debug_info(maScheduler::thread_manager& tm)
 	{
 		debug_info((thread_constructor&)tm);		
@@ -77,7 +77,7 @@ genos::ostream& operator<< (genos::ostream& o, thread& thr){
 				debug_printhex_uint16(proc->priority);		debug_putchar(':');
 			debug_print(proc->name);						debug_putchar('\n');};
 			break;
-		};
+	};*/
 		
 		
-	};	
+		

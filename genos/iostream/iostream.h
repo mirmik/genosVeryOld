@@ -13,7 +13,7 @@
 		
 			void set(Reader<T>& bi) {i=&bi;};
 			
-			basic_istream() : i(0) {};
+			basic_istream() : i(nullptr) {};
 			basic_istream(Reader<T>& _i) : i(&_i) {};
 			
 			size_t read(){return i->read();};
@@ -34,7 +34,7 @@
 			void set(Writer<T>& bo) {o=&bo;};
 			
 			public:
-			basic_ostream() : o(0) {};
+			basic_ostream() : o(nullptr) {};
 			basic_ostream(Writer<T>& _o) : o(&_o) {};
 			
 			public:

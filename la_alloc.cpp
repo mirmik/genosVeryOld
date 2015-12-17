@@ -44,10 +44,15 @@ by Mirmik. (only some comment...)*/
  #include "genos/types.h"
  #include "genos/debug/debug.h"
  #include "genos/memory/la_alloc.h"
+ #include "genos/debug/debug.h"
+ #include "gstd/mem.h"
 
 
 #define __MALLOC_MARGIN__ 60
 
+uint8_t dynamic_memory_debug = 0;
+
+void dynamic_memory_debug_enable() {dynamic_memory_debug = 1;};
 
 struct __la_freelist {
         size_t sz;
@@ -75,15 +80,17 @@ char *__brkval_maximum = (char*)100;
 
 	void la_debug_info()
 {
-	dpr("la_debug_info\n");
-	dpr("Heap_start:");debug_printhex_ptr(&__heap_start); dln;
-	dpr("Heap_top:");debug_printhex_ptr(__brkval); dln;
+	debug_print("la_debug_info\n");
+	debug_print("Heap_start:");debug_printhex_ptr(&__heap_start); debug_putchar('\n');
+	debug_print("Heap_top:");debug_printhex_ptr(__brkval); debug_putchar('\n');
 	
 };
 
 void *
 la_alloc(size_t len)
 {
+		if (dynamic_memory_debug) {debug_print("la_alloc"); debug_printhex_uint16(len); debug_putchar('\t');};
+		
         struct __la_freelist *fp1, *fp2, *sfp1, *sfp2;
         char *cp;
         size_t s, avail;
@@ -117,7 +124,8 @@ la_alloc(size_t len)
                         if (fp2)
                                 fp2->nx = fp1->nx;
                         else
-                                __flp = fp1->nx;
+                                __flp = fp1->nx;	
+				if (dynamic_memory_debug){debug_printhex_ptr(&(fp1->nx));debug_putchar('\n');}
                         return &(fp1->nx);
                 }
                 else {
@@ -146,6 +154,7 @@ la_alloc(size_t len)
                                 sfp2->nx = sfp1->nx;
                         else
                                 __flp = sfp1->nx;
+						if (dynamic_memory_debug) {debug_printhex_ptr(&(sfp1->nx));debug_putchar('\n');};
                         return &(sfp1->nx);
                 }
                 /*
@@ -163,6 +172,7 @@ la_alloc(size_t len)
                 sfp2 = (struct __la_freelist *)cp;
                 sfp2->sz = len;
                 sfp1->sz = s - sizeof(size_t);
+				if (dynamic_memory_debug) {debug_printhex_ptr(&(sfp2->nx));debug_putchar('\n');};
                 return &(sfp2->nx);
         }
         /*
@@ -192,11 +202,13 @@ la_alloc(size_t len)
                 __brkval += len + sizeof(size_t);
                 __brkval_maximum = __brkval;
                 fp1->sz = len;
+				if (dynamic_memory_debug) {debug_printhex_ptr(&(fp1->nx));debug_putchar('\n');};
                 return &(fp1->nx);
         }
         /*
          * Step 4: There's no help, just fail. :-/
          */
+		 if (dynamic_memory_debug) {debug_printhex_ptr(0);debug_putchar('\n');};
         return 0;
 }
 
@@ -204,6 +216,7 @@ la_alloc(size_t len)
 void
 la_free(void *p)
 {
+		if (dynamic_memory_debug) {debug_print("la_free"); debug_printhex_ptr(p); debug_putchar('\n');};
         struct __la_freelist *fp1, *fp2, *fpnew;
         char *cp1, *cp2, *cpnew;
 
@@ -289,6 +302,8 @@ la_free(void *p)
 void *
 la_realloc(void *ptr, size_t len)
 {
+		if (dynamic_memory_debug) {debug_print("la_realloc"); debug_printhex_ptr(ptr); debug_putchar('\n');
+		debug_printhex_uint16(len); debug_putchar('\n');};
         struct __la_freelist *fp1, *fp2, *fp3, *ofp3;
         char *cp, *cp1;
         void *memp;

@@ -4,7 +4,7 @@
 	#define GENOS_MEMORY_H
 
 	#include "genos/types.h"
-	#include "genos/debug/debug.h"
+	//#include "genos/debug/debug.h"
 	#include "genos/memory/la_alloc.h"
 	#include "genos/memory/new.h"
 		

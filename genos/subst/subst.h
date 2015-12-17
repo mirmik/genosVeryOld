@@ -4,7 +4,7 @@
 
 #ifndef GENOS_SUBST_SCHEDULER
 	#define GENOS_SUBST_SCHEDULER
-		
+	
 	//#include "inttypes.h"
 	//#include "string.h"
 	#include "genos/types.h"
@@ -13,11 +13,11 @@
 		//Дескриптор нити.
 		struct _thread 
 		{
-			size_t stack_pointer;	//Поле для сохранения указателя стека.
-			size_t stack_top;		//Вершина стека.		
+			volatile size_t stack_pointer;	//Поле для сохранения указателя стека.
+			volatile size_t stack_top;		//Вершина стека.		
 		};
 		typedef struct _thread thread;
-		
+extern "C" {		
 		//Настроить нить как текущую.
 		void init_current_thread(thread* thr, size_t ptr);
 		
@@ -53,5 +53,5 @@
 	
 		//drop_stack defined in platform/subst.h
 		//long_goto defined in platform/subst.h
-	
+};	
 #endif

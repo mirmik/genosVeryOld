@@ -17,13 +17,20 @@
 	
 	static constexpr uint8_t PROC_EXECUTED=	0x10;
 	
+	extern list_head process_list;
 	
 	class process_base{
 		public:
 		uint8_t prc_flags;				//Какие-то возможные состояния отмечаются в флагах.
 		list_head prc_list;				//Используем связные списки в стиле Линукс.	
+		process_base() : prc_flags(0) {list_add(&prc_list, &process_list);}; 
+
+	};
+	
+	
+	class process_sts_list{
+		public:
 		list_head sts_list;
-		process_base() : prc_flags(0), sts_list(), prc_list() {}; 
 	};
 	
 	
@@ -31,17 +38,7 @@
 		};
 	
 	
-	void process_set_running(process_base* proc);
-	void process_set_wait(process_base* proc);
-	void process_set_zombie(process_base* proc);
-	void process_set_stop(process_base* proc);
-	void process_init(process_base* proc);
-	
-	void process_executed(process_base* proc);
-	void process_unexecuted(process_base* proc);
-		
-	void process_unbind(process_base* proc);
-	
+void debug_proclist_print();
 	
 	
 #endif

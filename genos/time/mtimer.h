@@ -4,6 +4,7 @@
 	#include "genos/platform.h"
 	#include "genos/time/basic_timer.h"
 	
+	//Класс таймера, который сработает лишь однажды после установки. 
 	
 	namespace genos{
 		
@@ -22,7 +23,7 @@
 			void set(time_t _start, mtime_t _interval) {basic_timer::set(_start, _interval);status=1;};
 			
 			//После вызова функции set_bias таймер сработает через interval миллискунд после предыдущего срабатывания таймера. 
-			void set_bias(mtime_t _interval) {basic_timer::set(s + i, _interval);status=1;};
+			void set_bias(mtime_t _interval) {basic_timer::set_bias(_interval);status=1;};
 			
 			//Функция проверки состояния таймера. Может дать положительное значение только один раз на каждую установку.
 			bool check() {

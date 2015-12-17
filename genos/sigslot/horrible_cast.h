@@ -1,23 +1,21 @@
+//Реализация трикса horrible_cast. Спасибо Don Clugston и компании. 
+//Честно спёрто в 2015-ом году.
+
 #ifndef GENOS_HORIBLE_CAST_H
 	#define GENOS_HORIBLE_CAST_H
-	
-	
-	
-	//		implicit_cast< >
+		
+//		implicit_cast< >
 // I believe this was originally going to be in the C++ standard but 
 // was left out by accident. It's even milder than static_cast.
 // I use it instead of static_cast<> to emphasize that I'm not doing
 // anything nasty. 
 // Usage is identical to static_cast<>
-//явное приведение типа. 
 template <class OutputClass, class InputClass>
 inline OutputClass implicit_cast(InputClass input){
 	return input;
 }
-	
-	
-	
-	
+
+
 //		horrible_cast< >
 // This is truly evil. It completely subverts C++'s type system, allowing you 
 // to cast from any class to any other class. Technically, using a union 
@@ -32,6 +30,7 @@ template <class OutputClass, class InputClass>
 union horrible_union{
 	OutputClass out;
 	InputClass in;
+	horrible_union(){};
 };
 
 template <class OutputClass, class InputClass>
@@ -45,15 +44,6 @@ inline OutputClass horrible_cast(const InputClass input){
 	u.in = input;
 	return u.out;
 }
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

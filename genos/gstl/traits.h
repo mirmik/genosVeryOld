@@ -1,8 +1,7 @@
 #ifndef GENOS_GSTL_TRAITS_H
 	#define GENOS_GSTL_TRAITS_H
 	
-		#include "inttypes.h"
-		#include "string.h"
+	#include "genos/types.h"
 	
 	namespace genos{
 		

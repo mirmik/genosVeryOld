@@ -1,8 +1,9 @@
 #include "genos.h"
 #include "genos/debug/debug.h"
+#include "genos/iostream/iostream.h"
 #include "genos/platform/aiop2/aiop2.h"
 #include "genos/schedproc/gSched.h"
-#include "genos/time/timerserv.h"
+#include "genos/time/timeserv.h"
 
 using namespace genos;;
 
@@ -11,7 +12,6 @@ Serial_istream_adapter SIA;
 ostream os (SOA);
 
 gScheduler gSched;
-timer_service tmrservice;
 
 int n=0;
 ISR(TIMER1_OVF_vect){
@@ -19,7 +19,7 @@ ISR(TIMER1_OVF_vect){
     if (n==3)
     {
 		n=0;
-    tmrservice.check();
+    timerserv_check();
 		gSched.schedule();      
 	};
 };
@@ -28,12 +28,12 @@ ISR(TIMER1_OVF_vect){
 void idle(){while(1);};
 
 void task3(){
-  digitalWrite(30,1); msleep(200);
-  digitalWrite(30,0); msleep(200);
+  digitalWrite(30,1); msleep_subst(200);
+  digitalWrite(30,0); msleep_subst(200);
 };
 void task2(){
-	digitalWrite(13,1); msleep(200);
-	digitalWrite(13,0); msleep(200);
+	digitalWrite(13,1); msleep_subst(200);
+	digitalWrite(13,0); msleep_subst(200);
 };
 
 void setup() {
@@ -48,5 +48,5 @@ void setup() {
 
 void loop() {
 	os << "all good" << endl;
-	msleep(200); 	
+	msleep_subst(200); 	
 }

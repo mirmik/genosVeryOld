@@ -1,7 +1,7 @@
 #ifndef GENOS_BASE_STRUCT_FLAGS_H
 	#define GENOS_BASE_STRUCT_FLAGS_H
 	
-	
+	#include "genos/types.h"
 	//bits
 	
 	
@@ -45,6 +45,12 @@
 	
 	//***Маскированные операции.
 	template<typename T>  
+	static inline T bits_mask (const T& a, const T& m) 
+	{
+		return a & m;
+	};
+	
+	template<typename T>  
 	static inline T bits_mask_inv (const T& a, const T& m) 
 	{
 		return a ^ m;
@@ -60,6 +66,12 @@
 	static inline T bits_mask_or (const T& a, const T& b, const T& m) 
 	{
 		return a | (b & m);
+	};
+	
+	template<typename T>  
+	static inline T bits_mask_change (const T& a, const T& b, const T& m) 
+	{
+		return (a & ~m) | (b & m);
 	};
 	
 	template<typename T>  

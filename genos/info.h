@@ -8,8 +8,8 @@
 #include <genos/subst/subst.h>
 #include <genos/subst/thread_constructor.h>
 
-#include <genos/schedproc/maSched.h>
-#include <genos/schedproc/gSched.h>
+//#include <genos/schedproc/maSched.h>
+//#include <genos/schedproc/gSched.h>
 
 //#include <genos/subst/subst_sched.h>
 //#include <genos/gmath/gfloat.h>
@@ -36,8 +36,8 @@
 	/// maSched INFO
 	//0 - информация о нитях
 	//1 - информация о процессах
-	void debug_info(maScheduler &ma, int i);
-	void debug_info(maScheduler::thread_manager &tm);
+	//void debug_info(maScheduler &ma, int i);
+	//void debug_info(maScheduler::thread_manager &tm);
 	
 	
 	

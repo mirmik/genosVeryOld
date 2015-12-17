@@ -1,8 +1,7 @@
 #ifndef STATIC_STACK_H
 	#define STATIC_STACK_H
 	
-	#include "inttypes.h"
-	#include "string.h"
+	#include "genos/types.h"
 	
 	
 	//Класс-дескриптор стека.

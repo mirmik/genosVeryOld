@@ -207,6 +207,45 @@
 		debug_putchar('\n');
 	}
 	
+	void debug_print_dump_ascii(void* address, uint32_t size)
+	{
+		uint8_t* dump = (uint8_t*) address; 
+		uint32_t addr_tmp = (size_t) address;
+		uint32_t i = 0;
+		uint32_t mark = 0;
+		
+		for (i = 0; i < size; i++)
+		{
+			
+			if (mark == 0)
+			{
+				debug_printhex_uint32(addr_tmp);
+				debug_print(": ");
+			}
+			
+			debug_putchar(dump[i]);
+			
+			if ( mark == 7 )
+			{
+				debug_print("|");
+				mark++;
+			}
+			else if ( mark == 15 )
+			{
+				debug_print("\n");
+				mark = 0;
+				
+				addr_tmp += 0x10;
+			}
+			else
+			{
+				debug_print(" ");
+				mark++;
+			}
+		} 
+		debug_putchar('\n');
+	}
+	
 	void debug_printdec_int8(int8_t x){	debug_printdec_int64((int64_t)x);};
 	void debug_printdec_int16(int16_t x){debug_printdec_int64((int64_t)x);};
 	void debug_printdec_int32(int32_t x){debug_printdec_int64((int64_t)x);};
@@ -315,19 +354,5 @@
 		return 0xACAB;
 	};*/
 	
-#include <genos/debug/errserv.h>
-	#ifdef ARDUINO
-		#include "Arduino.h"
-		void debug_print_init()
-		{
-		Serial.begin(9600);	
-		};
-		
-		void debug_putchar(char c){
-			//ATOMIC();
-			while ((UCSR0A & (1 << UDRE0)) == 0) {};  UDR0=c; 
-			//DEATOMIC();
-		};
-		
-	#endif
+
 	

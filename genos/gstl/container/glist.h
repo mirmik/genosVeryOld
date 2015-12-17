@@ -8,11 +8,11 @@
 	#include <genos/base_struct/list.h>
 	#include "genos/gstl/allocator.h"
 	
-	namespace genos{
+	namespace gstl{
 		
 template <
 class valtype, 
-class traits_type = elem_traits<valtype>
+class traits_type = genos::elem_traits<valtype>
 >
 		class glist
 		{
@@ -25,7 +25,7 @@ class traits_type = elem_traits<valtype>
 			typedef typename traits_type::	size_type 			size_type;
 			typedef typename traits_type::	ptrdiff_t 			difference_type;
 			typedef 		 std::pair<list_head, valtype>			pair_t;
-			allocator<pair_t>									alloc;
+			genos::allocator<pair_t>									alloc;
 			
 			public:
 			list_head head;

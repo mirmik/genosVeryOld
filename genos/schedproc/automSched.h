@@ -7,41 +7,54 @@
 	#include "genos/schedproc/scheduler_base.h"
 	#include "genos/schedproc/process_base.h"
 	#include "genos/sigslot/delegate.h"
+	#include "genos/sigslot/delegate2.h"
 	#include "genos/debug/debug_info.h"
+	#include "genos/schedproc/state_lists.h"
 	
 	
-	//Структура, содержащая информацию о процессе.
-	class process : public process_base 
-	{
-		public:
-		delegate<void> dlg;
-	};
+	
 	
 	
 	class automScheduler : public subst_scheduler_base
 	{
+		template<typename R, typename ... V>
+		using delegate = cdelegate<R,V...>;
+		
+		
+		//Структура, содержащая информацию о процессе.
+	class process_autom : public process_base, public process_sts_list
+	{		
+		public:
+		delegate<void> dlg;
+	};
+	
+		
+		
 		//Ресурсы:
 		uint8_t proc_is_unbind;
+		state_lists<process_autom> stlst; 
+		
 		public:
-		//Методы:
-		void init(){
-			unblock();
-		};					
+	
+		list_head running_list;
+		list_head waiting_list;
+	
+	//Методы:
+		void init(){bits_clr(sched_flags, NO_INIT);};					
 		
 		
 	void proc_go_wait()
 	{
 		proc_is_unbind = 1;
 	};
-		
-		int a;
+	
 		void schedule(){	//вызов планировщика 
-			process* proc;
+			process_autom* proc;
 			
-			if(list_empty(&running_list)) return; 
+			if(list_empty(&stlst.running_list)) return; 
 			proc = 
-			list_entry(running_list.next, process, sts_list);
-			list_move_tail(&proc->sts_list, &running_list);
+			list_entry(stlst.running_list.next, process_autom, sts_list);
+			list_move_tail(&proc->sts_list, &stlst.running_list);
 			current_process(proc);			
 			proc->dlg();
 			
@@ -50,21 +63,43 @@
 		
 		
 		
+		void process_set_running(process_base* proc){stlst.process_set_running((process_autom*)proc);};
+		void process_set_wait(process_base* proc){stlst.process_set_wait((process_autom*)proc);};
+		void process_set_zombie(process_base* proc){stlst.process_set_zombie((process_autom*)proc);};
+		void process_set_stop(process_base* proc){stlst.process_set_stop((process_autom*)proc);};
 		
-		void registry(void(*_fnc)(void))
+		
+		
+		void process_init(process_autom* proc)
 		{
-			process* proc = new process;
-			proc->dlg = _fnc;
+			stlst.process_set_running(proc);
+		};
+		
+		
+		
+		/*void registry(void(*_fnc)(void))
+		{
+			process_autom* proc = new process_autom;
+			proc->dlg.set( _fnc );
+			process_init(proc);
+		};*/
+		
+		
+		
+		void registry(const delegate<void>& d)
+		{
+			process_autom* proc = new process_autom;			
+			proc->dlg = d;
 			process_init(proc);
 		};
 		
-		template <typename T>
-		void registry(T* obj, void(T::*mtd)())
+		void registry(delegate<void>&& d)
 		{
-			process* proc = new process;
-			proc->dlg = std::make_pair(obj, mtd);
+			process_autom* proc = new process_autom;			
+			proc->dlg = d;
 			process_init(proc);
 		};
+		
 		
 		//Утилиты:
 		//void proc_delete(process* proc);//Уничтожить процесс. (Активный процесс уничтожать запрещено.)
